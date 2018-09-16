@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.loja.handler.UsuarioLoginNaoExiste;
@@ -16,6 +17,9 @@ public class LoginService {
 	
 	@Autowired
 	private LoginRepository login;
+	
+	@Autowired
+	private BCryptPasswordEncoder bcrypt;
 	
 	public List<UsuarioLogin> listarTodos() {
 		return login.findAll();
@@ -32,6 +36,9 @@ public class LoginService {
 	}
 	
 	public UsuarioLogin salvar(UsuarioLogin usuarioLogin) {
+		
+		usuarioLogin.setSenha(bcrypt.encode(usuarioLogin.getSenha()));
+		
 		return login.save(usuarioLogin);
 	}
 	

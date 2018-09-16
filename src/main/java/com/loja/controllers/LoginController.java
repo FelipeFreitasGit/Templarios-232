@@ -20,23 +20,23 @@ import com.loja.models.UsuarioLogin;
 import com.loja.services.LoginService;
 
 @RestController
-@RequestMapping("/login")
+@RequestMapping("/userLogin")
 public class LoginController {
 
 	@Autowired
 	private LoginService login;
 	
+	@PostMapping
+	public ResponseEntity<UsuarioLogin> cadastrar(@Valid @RequestBody UsuarioLogin usuarioLogin) {
+		UsuarioLogin usuarioLoginSalvo = login.salvar(usuarioLogin);
+		
+		return ResponseEntity.status(HttpStatus.CREATED).body(usuarioLoginSalvo);
+	}
+	
 	@GetMapping
 	public ResponseEntity<List<UsuarioLogin>> listar() {
 		
 		return ResponseEntity.status(HttpStatus.OK).body(login.listarTodos());
-	}
-	
-	@PostMapping
-	public ResponseEntity<UsuarioLogin> salvar(@Valid @RequestBody UsuarioLogin usuarioLogin) {
-		UsuarioLogin usuarioLoginSalvo = login.salvar(usuarioLogin);
-		
-		return ResponseEntity.status(HttpStatus.CREATED).body(usuarioLoginSalvo);
 	}
 	
 	@PutMapping("/{id}")
@@ -54,8 +54,4 @@ public class LoginController {
 		
 		return ResponseEntity.noContent().build();
 	}
-	
-	
-	
-	
 }
