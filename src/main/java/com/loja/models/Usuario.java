@@ -2,12 +2,14 @@ package com.loja.models;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -21,9 +23,12 @@ public class Usuario {
 	private Long id;
 	
 	@JsonInclude(Include.NON_NULL)
-	private Integer numCadMemb;
+	@Column(unique=true, nullable=false)
+	@NotNull(message = "Numero de cadastro do usuário é obrigatório")
+	private Long numCadMemb;
 	
 	@JsonInclude(Include.NON_NULL)
+	@NotNull(message = "Nome do usuário é obrigatório")
     private String nome;
 	
 	@JsonInclude(Include.NON_NULL)
@@ -66,11 +71,16 @@ public class Usuario {
     private String telConju;
 	
 	@JsonInclude(Include.NON_NULL)
+	@NotNull(message = "Primeiro e-mail do usuário é obrigatório")
     private String email1;
 	
 	@JsonInclude(Include.NON_NULL)
     private String email2;
+	
+	@JsonInclude(Include.NON_NULL)
+	private String nivel;
     
+	@JsonInclude(Include.NON_NULL)
     @OneToMany(mappedBy = "usuario")
     private List<Aniversariante> aniversariantes;
 
@@ -82,11 +92,11 @@ public class Usuario {
 		this.id = id;
 	}
 
-	public Integer getNumCadMemb() {
+	public Long getNumCadMemb() {
 		return numCadMemb;
 	}
 
-	public void setNumCadMemb(Integer numCadMemb) {
+	public void setNumCadMemb(Long numCadMemb) {
 		this.numCadMemb = numCadMemb;
 	}
 
@@ -224,6 +234,14 @@ public class Usuario {
 
 	public void setAniversariantes(List<Aniversariante> aniversariantes) {
 		this.aniversariantes = aniversariantes;
+	}
+	
+	public String getNivel() {
+		return nivel;
+	}
+
+	public void setNivel(String nivel) {
+		this.nivel = nivel;
 	}
 
 	@Override
