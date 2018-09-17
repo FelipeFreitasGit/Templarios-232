@@ -9,7 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -22,22 +24,27 @@ public class Aniversariante {
 	private Long id;
 	
 	@JsonInclude(Include.NON_NULL)
+	@JsonFormat(pattern = "dd/MM/yyyy")
+	@NotNull(message = "A data de aniversário é obrigatório.")
 	private Date dataAniversario;
 	
 	@JsonInclude(Include.NON_NULL)
     private String relacao;
 	
 	@JsonInclude(Include.NON_NULL)
+	@NotNull(message = "O nome do aniversário é obrigatório.")
     private String nomeAniversariante;
 	
 	@JsonInclude(Include.NON_NULL)
     private String telefoneAni;
 	
 	@JsonInclude(Include.NON_NULL)
+	@NotNull(message = "O email é obrigatório.")
     private String email;
     
     @ManyToOne
     @JoinColumn(name = "usuario_id")
+    @JsonInclude(Include.NON_NULL)
     private Usuario usuario;
 
 	public Long getId() {

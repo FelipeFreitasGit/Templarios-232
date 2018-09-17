@@ -1,5 +1,6 @@
 package com.loja.models;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -11,6 +12,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -39,6 +42,11 @@ public class Usuario {
 	
 	@JsonInclude(Include.NON_NULL)
     private String rg;
+	
+	@JsonInclude(Include.NON_NULL)
+	@JsonFormat(pattern = "dd/MM/yyyy")
+	@NotNull(message = "A data de aniversário é obrigatório.")
+	private Date dataAniversario;
 	
 	@JsonInclude(Include.NON_NULL)
     private String endResidencial;
@@ -80,8 +88,8 @@ public class Usuario {
 	@JsonInclude(Include.NON_NULL)
 	private String nivel;
     
-	@JsonInclude(Include.NON_NULL)
     @OneToMany(mappedBy = "usuario")
+    @JsonIgnore
     private List<Aniversariante> aniversariantes;
 
 	public Long getId() {
@@ -242,6 +250,14 @@ public class Usuario {
 
 	public void setNivel(String nivel) {
 		this.nivel = nivel;
+	}
+	
+	public Date getDataAniversario() {
+		return dataAniversario;
+	}
+
+	public void setDataAniversario(Date dataAniversario) {
+		this.dataAniversario = dataAniversario;
 	}
 
 	@Override
