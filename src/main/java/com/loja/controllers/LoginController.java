@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,12 +35,14 @@ public class LoginController {
 	}
 	
 	@GetMapping
+	@PreAuthorize("hasAnyRole('ADMINISTRADOR')")
 	public ResponseEntity<List<UsuarioLogin>> listar() {
 		
 		return ResponseEntity.status(HttpStatus.OK).body(login.listarTodos());
 	}
 	
 	@PutMapping("/{id}")
+	@PreAuthorize("hasAnyRole('ADMINISTRADOR')")
 	public ResponseEntity<Void> atualizar(@PathVariable("id") Long id, @RequestBody UsuarioLogin usuarioLogin) {
 		
 		usuarioLogin.setId(id);
@@ -49,6 +52,7 @@ public class LoginController {
 	}
 	
 	@DeleteMapping("/{id}")
+	@PreAuthorize("hasAnyRole('ADMINISTRADOR')")
 	public ResponseEntity<Void> deletar(@PathVariable("id") Long id) {
 		login.deletar(id);
 		

@@ -5,12 +5,14 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.loja.handler.UsuarioLoginNaoExiste;
 import com.loja.models.UsuarioLogin;
 import com.loja.repository.LoginRepository;
+import com.loja.security.UserSS;
 
 @Service
 public class LoginService {
@@ -58,5 +60,14 @@ public class LoginService {
 
 	private void verificaExistencia(UsuarioLogin usuarioLogin) {
 		buscarId(usuarioLogin.getId());
+	}
+	
+	public static UserSS authenticated() {
+		try {
+			return (UserSS) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 }
