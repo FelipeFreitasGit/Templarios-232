@@ -23,39 +23,44 @@ import com.loja.services.UsuarioService;
 @RestController
 @RequestMapping("/usuario")
 public class UsuarioController {
-	
+
 	@Autowired
 	private UsuarioService user;
-	
+
 	@GetMapping
 	public ResponseEntity<List<Usuario>> listar() {
-		
+
 		return ResponseEntity.status(HttpStatus.OK).body(user.listarTodos());
 	}
-	
+
 	@PostMapping
 	@PreAuthorize("hasAnyRole('ADMINISTRADOR')")
 	public ResponseEntity<Usuario> cadastrar(@Valid @RequestBody Usuario usuario) {
 		Usuario usuarioSalvo = user.salvar(usuario);
-		
+
 		return ResponseEntity.status(HttpStatus.CREATED).body(usuarioSalvo);
 	}
-	
+
 	@PutMapping("/{id}")
 	@PreAuthorize("hasAnyRole('ADMINISTRADOR')")
-	public ResponseEntity<Void> atualizar(@PathVariable("id") Long id, @RequestBody Usuario usuario) {
-		
-		usuario.setId(id);
-		user.atualizar(usuario);
-		
-		return ResponseEntity.noContent().build();
+	public ResponseEntity<?> atualizar(@Valid @PathVariable("id") Long id, @RequestBody Usuario usuario) {
+
+		try {
+			
+			usuario.setId(id);
+			user.atualizar(usuario);
+			
+			return ResponseEntity.ok("Usuário alterado com sucesso.");
+		} catch (IllegalArgumentException e) {
+			return ResponseEntity.notFound().build();
+		}
 	}
-	
+
 	@DeleteMapping("/{id}")
 	@PreAuthorize("hasAnyRole('ADMINISTRADOR')")
 	public ResponseEntity<Void> deletar(@PathVariable("id") Long id) {
 		user.deletar(id);
-		
+
 		return ResponseEntity.noContent().build();
 	}
 }
