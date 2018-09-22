@@ -6,4 +6,5 @@ import com.loja.models.Usuario;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
 	
+	Usuario findByNumCadMemb(Long numCadMemb);
 }

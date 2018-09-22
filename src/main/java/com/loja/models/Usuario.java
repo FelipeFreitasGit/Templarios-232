@@ -88,7 +88,7 @@ public class Usuario {
 	@JsonInclude(Include.NON_NULL)
 	private String nivel;
     
-    @OneToMany(mappedBy = "usuario")
+    @OneToMany
     @JsonIgnore
     private List<Aniversariante> aniversariantes;
 

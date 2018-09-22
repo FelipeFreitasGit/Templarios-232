@@ -4,8 +4,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.loja.handler.UsuarioExistenteException;
+import com.loja.handler.UsuarioExistenteNaAniversario;
 import com.loja.handler.UsuarioNaoExiste;
 import com.loja.models.Usuario;
 import com.loja.repository.UsuarioRepository;
@@ -32,6 +36,12 @@ public class UsuarioService {
 	
 	public Usuario salvar(Usuario usuario) {
 		
+		Usuario usuarioMemb = user.findByNumCadMemb(usuario.getNumCadMemb());
+		
+		if (usuarioMemb != null)
+			throw new UsuarioExistenteException("Número de cadastro de membro já existe.");
+			
+		
 		return user.save(usuario); 
 	}
 	
@@ -42,10 +52,13 @@ public class UsuarioService {
 	}
 	
 	public void deletar(Long id) {
+		
 		try {
 			user.deleteById(id);
-		} catch (Exception e) {
-			throw new UsuarioNaoExiste("Usuario não pode ser encontrado");
+		} catch (EmptyResultDataAccessException e) {
+			throw new UsuarioNaoExiste("Usuário não pôde ser encontrado");
+		} catch (DataIntegrityViolationException e) {
+			throw new UsuarioExistenteNaAniversario("Usuario esta relacionado com aniversáriante");
 		}
 	}
 	

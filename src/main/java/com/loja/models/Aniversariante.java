@@ -42,7 +42,7 @@ public class Aniversariante {
 	@NotNull(message = "O email é obrigatório.")
     private String email;
     
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "usuario_id")
     @JsonInclude(Include.NON_NULL)
     private Usuario usuario;

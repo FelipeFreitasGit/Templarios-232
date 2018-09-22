@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.loja.handler.UsuarioNaoExiste;
+import com.loja.handler.UsuarioRelacionadoNaoExiste;
 import com.loja.models.Aniversariante;
 import com.loja.repository.AniversarianteRepository;
 
@@ -32,7 +34,11 @@ public class AniversarianteService {
 	
 	public Aniversariante salvar(Aniversariante usuario) {
 		
-		return niver.save(usuario); 
+		try {
+			return niver.save(usuario); 
+		} catch (DataIntegrityViolationException e) {
+			throw new UsuarioRelacionadoNaoExiste("Membro relacionado não existe");
+		}
 	}
 	
 	public void atualizar(Aniversariante usuario) {
