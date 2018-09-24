@@ -69,4 +69,18 @@ public class ResouceExceptionHandler {
 		
 	}
 	
+	@ExceptionHandler(EventoNaoExiste.class)
+	public ResponseEntity<DetalhesErro> handlerEventoNaoEncontradoException(EventoNaoExiste e,
+			HttpServletRequest request){
+		
+		DetalhesErro erro = new DetalhesErro();
+		erro.setStatus(404l);
+		erro.setTitulo("Evento não pôde ser encontrado");
+		erro.setMensagemDesenvolvedor("http://erros.templarios.com/404");
+		erro.setTimestamp(System.currentTimeMillis());
+		
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erro);
+		
+	}
+	
 }
