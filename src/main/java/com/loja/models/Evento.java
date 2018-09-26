@@ -1,14 +1,11 @@
 package com.loja.models;
 
-import java.util.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -24,12 +21,10 @@ public class Evento{
     private String titulo;
     
     @JsonInclude(Include.NON_NULL)
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private Date inicio;
+    private String inicio;
     
     @JsonInclude(Include.NON_NULL)
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private Date fim;
+    private String fim;
     
     @JsonInclude(Include.NON_NULL)
     private String descricao;
@@ -69,19 +64,19 @@ public class Evento{
         this.status = status;
     }
 
-    public Date getInicio() {
-        return inicio;
-    }
+	public String getInicio() {
+		return inicio;
+	}
 
-    public void setInicio(Date inicio) {
-        this.inicio = inicio;
-    }
+	public void setInicio(String inicio) {
+		this.inicio = inicio;
+	}
 
-    public Date getFim() {
-        return fim;
-    }
+	public String getFim() {
+		return fim;
+	}
 
-    public void setFim(Date fim) {
-        this.fim = fim;
-    }  
+	public void setFim(String fim) {
+		this.fim = fim;
+	}
 }

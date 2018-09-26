@@ -83,4 +83,18 @@ public class ResouceExceptionHandler {
 		
 	}
 	
+	@ExceptionHandler(EventoDataInicioMaiorQueFinal.class)
+	public ResponseEntity<DetalhesErro> handlerEventoDataInicioMaiorQueFinalException(EventoDataInicioMaiorQueFinal e,
+			HttpServletRequest request){
+		
+		DetalhesErro erro = new DetalhesErro();
+		erro.setStatus(406l);
+		erro.setTitulo("A data de inicio não pode ser maior que a data final");
+		erro.setMensagemDesenvolvedor("http://erros.templarios.com/404");
+		erro.setTimestamp(System.currentTimeMillis());
+		
+		return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(erro);
+		
+	}
+	
 }
