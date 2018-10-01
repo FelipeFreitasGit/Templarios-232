@@ -65,10 +65,4 @@ public class UsuarioService {
 	private void verificaExistencia(Usuario usuario) {
 		buscarId(usuario.getId());
 	}
-	
-	/* precisar ser ajustado */
-	public List<Usuario> buscaTodosEmails() {
-		
-		return user.findByEmail1StartingWith("@");
-	}
 }

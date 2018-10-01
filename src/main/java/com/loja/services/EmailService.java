@@ -16,11 +16,11 @@ public class EmailService {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(EmailService.class);
 	
-	public void enviar(String email, String assunto, String mensagem) {
+	public void enviar(String toUser, String assunto, String mensagem) {
 		
 		SimpleMailMessage emailMessage = new SimpleMailMessage();
 		
-		emailMessage.setTo(email);
+		emailMessage.setTo(toUser);
 		emailMessage.setSubject(assunto);
 		emailMessage.setText(mensagem);
 		

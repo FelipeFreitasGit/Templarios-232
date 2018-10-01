@@ -2,6 +2,7 @@ package com.loja.controllers;
 
 import java.util.List;
 
+import javax.mail.internet.AddressException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.loja.models.Evento;
+import com.loja.models.Usuario;
+import com.loja.repository.UsuarioRepository;
 import com.loja.services.EmailService;
 import com.loja.services.EventosService;
 
@@ -31,6 +34,9 @@ public class EventoController {
 	@Autowired
 	private EmailService email;
 	
+	@Autowired
+	private UsuarioRepository send;
+	
 	@GetMapping
 	public ResponseEntity<List<Evento>> listar() {
 
@@ -39,15 +45,21 @@ public class EventoController {
 	
 	@PostMapping
 	@PreAuthorize("hasAnyRole('ADMINISTRADOR')")
-	public ResponseEntity<Evento> cadastrar(@Valid @RequestBody Evento evento) {
+	public ResponseEntity<Evento> cadastrar(@Valid @RequestBody Evento evento) throws AddressException {
 		Evento eventoSalvo = eventos.salvar(evento);
 		
-		email.enviar(
-				"felipe.210296@gmail.com", 
-				"Eventos e Tarefas - Loja Templários!", 
-				"Seu evento " + evento.getTitulo() + " foi cadastrado com sucesso! \n" + 
-				"Data de Inicial: " + evento.getInicio() + "\n" +
-				"Data de Final:" + evento.getFim());
+		List<Usuario> usuarios = send.findAll();
+		
+		for (Usuario usuario : usuarios) {
+			
+			email.enviar(
+					usuario.getEmail1(), 
+					"Eventos e Tarefas - Loja Templários!", 
+					"Seu evento " + evento.getTitulo() + " foi cadastrado com sucesso! \n" + 
+							"Data de Inicial: " + evento.getInicio() + "\n" +
+							"Data de Final:" + evento.getFim());			
+		}
+		
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(eventoSalvo);
 	}
