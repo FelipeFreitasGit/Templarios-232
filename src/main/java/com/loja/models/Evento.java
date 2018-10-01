@@ -31,6 +31,9 @@ public class Evento{
     
     @JsonInclude(Include.NON_NULL)
     private boolean status;
+    
+    @JsonInclude(Include.NON_NULL)
+    private boolean enviarEmail;
 
     public Long getId() {
         return id;
@@ -78,5 +81,13 @@ public class Evento{
 
 	public void setFim(String fim) {
 		this.fim = fim;
+	}
+
+	public boolean isEnviarEmail() {
+		return enviarEmail;
+	}
+
+	public void setEnviarEmail(boolean enviarEmail) {
+		this.enviarEmail = enviarEmail;
 	}
 }

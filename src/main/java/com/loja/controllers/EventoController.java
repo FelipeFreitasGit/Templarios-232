@@ -50,17 +50,19 @@ public class EventoController {
 		
 		List<Usuario> usuarios = send.findAll();
 		
-		for (Usuario usuario : usuarios) {
+		if (evento.isEnviarEmail()) {
 			
-			email.enviar(
-					usuario.getEmail1(), 
-					"Eventos e Tarefas - Loja Templários!", 
-					"Seu evento " + evento.getTitulo() + " foi cadastrado com sucesso! \n" + 
-							"Data de Inicial: " + evento.getInicio() + "\n" +
-							"Data de Final:" + evento.getFim());			
+			for (Usuario usuario : usuarios) {
+				
+				email.enviar(
+						usuario.getEmail1(), 
+						"Eventos e Tarefas - Loja Templários!", 
+						"Seu evento " + evento.getTitulo() + " foi cadastrado com sucesso! \n" + 
+								"Data Inicial: " + evento.getInicio() + "\n" +
+								"Data Final: " + evento.getFim());			
+			}
 		}
 		
-
 		return ResponseEntity.status(HttpStatus.CREATED).body(eventoSalvo);
 	}
 	
