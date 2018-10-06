@@ -62,7 +62,7 @@ public class EventoController {
 								"Data Final: " + evento.getFim());			
 			}
 		}
-		
+						
 		return ResponseEntity.status(HttpStatus.CREATED).body(eventoSalvo);
 	}
 	
